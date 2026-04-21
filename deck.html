@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從問題意識到獲補助計畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #13204a;
+    --navy2:  #1c2e5e;
+    --teal:   oklch(0.55 0.12 192);
+    --teal2:  oklch(0.48 0.13 192);
+    --amber:  oklch(0.68 0.13 68);
+    --green:  oklch(0.54 0.14 152);
+    --bg:     #f7f5f0;
+    --white:  #ffffff;
+    --ink:    #131313;
+    --ink2:   #3a3a3a;
+    --muted:  #888;
+    --rule:   rgba(0,0,0,0.10);
+    --ff:     'Noto Sans TC', sans-serif;
+    --ff-serif:'Noto Serif TC', serif;
+  }
+
+  body { background: #000; }
+
+  /* ── shared slide base ─────────────────────────── */
+  section {
+    font-family: var(--ff);
+    color: var(--ink);
+    background: var(--bg);
+  }
+
+  /* ── typography helpers ────────────────────────── */
+  .t-72  { font-size: 72px; line-height: 1.2; }
+  .t-64  { font-size: 64px; line-height: 1.25; }
+  .t-52  { font-size: 52px; line-height: 1.3; }
+  .t-44  { font-size: 44px; line-height: 1.35; }
+  .t-36  { font-size: 36px; line-height: 1.4; }
+  .t-34  { font-size: 34px; line-height: 1.5; }
+  .t-28  { font-size: 28px; line-height: 1.55; }
+  .t-24  { font-size: 24px; line-height: 1.6; }
+  .t-120 { font-size: 120px; line-height: 1; }
+  .w-300 { font-weight: 300; }
+  .w-400 { font-weight: 400; }
+  .w-500 { font-weight: 500; }
+  .w-700 { font-weight: 700; }
+  .w-900 { font-weight: 900; }
+  .muted { color: var(--muted); }
+  .teal  { color: var(--teal); }
+  .amber { color: var(--amber); }
+  .green { color: var(--green); }
+  .white { color: #fff; }
+
+  /* ── layout helpers ────────────────────────────── */
+  .pad   { padding: 90px 110px 80px; }
+  .pad-sm{ padding: 70px 110px 60px; }
+  .col   { display: flex; flex-direction: column; }
+  .row   { display: flex; flex-direction: row; }
+  .gap-16 { gap: 16px; }
+  .gap-28 { gap: 28px; }
+  .gap-36 { gap: 36px; }
+  .gap-48 { gap: 48px; }
+  .gap-64 { gap: 64px; }
+  .flex-1 { flex: 1; }
+  .h-full { height: 100%; }
+  .items-center { align-items: center; }
+  .justify-center { justify-content: center; }
+  .text-center { text-align: center; }
+
+  /* ── accent bar ────────────────────────────────── */
+  .accent-bar {
+    width: 56px; height: 6px;
+    background: var(--teal);
+    border-radius: 3px;
+    margin-bottom: 32px;
+  }
+  .accent-bar.amber { background: var(--amber); }
+  .accent-bar.green { background: var(--green); }
+
+  /* ── slide label strip (phase indicator) ────────── */
+  .phase-tag {
+    display: inline-block;
+    font-size: 24px; font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  /* ── rule ────────────────────────────────────── */
+  .rule { width: 100%; height: 1px; background: var(--rule); margin: 32px 0; }
+
+  /* ── cards ───────────────────────────────────── */
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 44px;
+    flex: 1;
+  }
+  .card-dark {
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 40px 44px;
+    flex: 1;
+  }
+
+  /* ── number badge ─────────────────────────────── */
+  .num-badge {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: white;
+    font-size: 28px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── bullet row ───────────────────────────────── */
+  .bullet-row {
+    display: flex; align-items: flex-start; gap: 24px;
+  }
+  .bullet-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--teal);
+    margin-top: 12px; flex-shrink: 0;
+  }
+
+  /* ── dark slides ──────────────────────────────── */
+  .dark {
+    background: var(--navy);
+    color: white;
+  }
+  .dark .muted { color: rgba(255,255,255,0.50); }
+  .dark .rule  { background: rgba(255,255,255,0.12); }
+  .dark .accent-bar { background: var(--teal); }
+
+  /* ── teal slides ──────────────────────────────── */
+  .teal-bg {
+    background: linear-gradient(135deg, var(--teal2) 0%, var(--navy2) 100%);
+    color: white;
+  }
+
+  /* ── timeline table ───────────────────────────── */
+  .timeline-table {
+    width: 100%; border-collapse: separate; border-spacing: 0 10px;
+  }
+  .timeline-table th {
+    font-size: 26px; font-weight: 500; color: var(--teal);
+    text-align: left; padding: 0 20px 12px;
+    border-bottom: 2px solid var(--teal);
+  }
+  .timeline-table td {
+    font-size: 26px; padding: 14px 20px;
+    background: white; vertical-align: top;
+  }
+  .timeline-table tr td:first-child { border-radius: 10px 0 0 10px; font-weight: 500; color: var(--teal2);}
+  .timeline-table tr td:last-child  { border-radius: 0 10px 10px 0; }
+
+  /* ── 3-col icon cards ─────────────────────────── */
+  .icon-circle {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin-bottom: 24px;
+    flex-shrink: 0;
+  }
+
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ===== SLIDE 01 · TITLE ===== -->
+<section data-label="Title" class="dark col" style="padding:0;">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:90px 130px 40px;">
+    <div style="font-size:26px;font-weight:500;letter-spacing:0.12em;color:oklch(0.65 0.10 192);margin-bottom:48px;text-transform:uppercase;">教育部教學實踐研究計畫 · 案例分享</div>
+    <h1 class="t-72 w-700" style="line-height:1.25;max-width:1400px;text-wrap:pretty;">
+      從問題意識到獲補助計畫
+    </h1>
+    <div style="width:80px;height:5px;background:oklch(0.65 0.10 192);border-radius:3px;margin:36px 0;"></div>
+    <h2 class="t-44 w-300" style="color:rgba(255,255,255,0.80);max-width:1200px;">
+      以「SDGs 融入微分方程」研究為例<br>
+      <span style="font-size:36px;color:rgba(255,255,255,0.55);">教學實踐研究的提案策略與案例分享</span>
+    </h2>
+  </div>
+  <div style="padding:0 130px 60px;display:flex;align-items:center;gap:48px;border-top:1px solid rgba(255,255,255,0.10);padding-top:36px;">
+    <div>
+      <div class="t-28 w-500" style="color:rgba(255,255,255,0.90);">劉宣谷</div>
+      <div class="t-24 w-300" style="color:rgba(255,255,255,0.50);">國立台北教育大學 · 數學暨資訊教育學系</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 02 · 演講重點預覽 ===== -->
+<section data-label="演講重點預覽" class="col pad">
+  <div class="phase-tag">Overview</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">今日演講重點</h2>
+  <div class="row gap-36" style="flex:1;">
+    <div class="card col gap-16" style="border-top:5px solid var(--teal);">
+      <div style="font-size:80px;font-weight:900;color:oklch(0.88 0.08 192);line-height:1;">01</div>
+      <div class="t-36 w-700">發現真問題</div>
+      <div class="t-28 w-400" style="color:var(--ink2);">教學現場的觀察：如何從日常困境中挖掘出值得研究的核心問題</div>
+    </div>
+    <div class="card col gap-16" style="border-top:5px solid var(--amber);">
+      <div style="font-size:80px;font-weight:900;color:oklch(0.90 0.09 68);line-height:1;">02</div>
+      <div class="t-36 w-700">計畫核心邏輯</div>
+      <div class="t-28 w-400" style="color:var(--ink2);">問題與目標的精準對接：如何讓評審看見你的計畫脈絡</div>
+    </div>
+    <div class="card col gap-16" style="border-top:5px solid var(--green);">
+      <div style="font-size:80px;font-weight:900;color:oklch(0.88 0.10 152);line-height:1;">03</div>
+      <div class="t-36 w-700">案例解析</div>
+      <div class="t-28 w-400" style="color:var(--ink2);">SDGs × AI × 數學的跨界整合：一份獲補助計畫的完整解構</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 03 · 獲補助計畫的成功關鍵 ===== -->
+<section data-label="獲補助計畫的成功關鍵" class="col pad">
+  <div class="phase-tag">成功關鍵</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">一份好計畫的三個核心要件</h2>
+  <div class="row gap-36" style="flex:1;align-items:stretch;">
+    <div class="col gap-20 flex-1" style="background:white;border-radius:16px;padding:44px 48px;">
+      <div style="font-size:52px;font-weight:900;color:var(--teal);">創新性</div>
+      <div class="t-34 w-500">解決老問題的新方法</div>
+      <div class="rule"></div>
+      <div class="t-28 w-400" style="color:var(--ink2);">研究不必發明新宇宙——找到既有問題的新切入角度，就是創新。將 SDGs 帶入傳統數學課，本身就是一種創新。</div>
+    </div>
+    <div class="col gap-20 flex-1" style="background:white;border-radius:16px;padding:44px 48px;">
+      <div style="font-size:52px;font-weight:900;color:var(--amber);">完整性</div>
+      <div class="t-34 w-500">嚴謹的方法與設計</div>
+      <div class="rule" style="background:rgba(0,0,0,0.10);"></div>
+      <div class="t-28 w-400" style="color:var(--ink2);">問題 → 目標 → 教學設計 → 評量工具 → 資料分析，每一環節環環相扣，計畫架構需自成一體。</div>
+    </div>
+    <div class="col gap-20 flex-1" style="background:white;border-radius:16px;padding:44px 48px;">
+      <div style="font-size:52px;font-weight:900;color:var(--green);">延續性</div>
+      <div class="t-34 w-500">對教學社群的長遠貢獻</div>
+      <div class="rule" style="background:rgba(0,0,0,0.10);"></div>
+      <div class="t-28 w-400" style="color:var(--ink2);">成果不只屬於你的課堂。師培生 → 國小現場，一份計畫可以帶動更廣泛的教育改變。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 04 · 第一步：診斷教學現場的痛點 ===== -->
+<section data-label="診斷教學現場的痛點" class="teal-bg col pad">
+  <div style="font-size:26px;font-weight:500;letter-spacing:0.10em;color:rgba(255,255,255,0.55);margin-bottom:36px;text-transform:uppercase;">第二階段 · 問題意識的挖掘</div>
+  <h2 class="t-72 w-700 white" style="margin-bottom:40px;">第一步：診斷教學現場的痛點</h2>
+  <div style="width:64px;height:5px;background:rgba(255,255,255,0.40);border-radius:3px;margin-bottom:48px;"></div>
+  <div class="row gap-48" style="flex:1;">
+    <div class="col gap-24 flex-1">
+      <div class="t-34 w-400" style="color:rgba(255,255,255,0.88);line-height:1.65;">
+        在微分方程課程的教學觀察中，學生的學習困境並非源於智識不足，而是課程設計與學生背景的<strong>系統性錯配</strong>。
+      </div>
+      <div class="t-34 w-400" style="color:rgba(255,255,255,0.88);line-height:1.65;">
+        傳統教學以物理、電學建模為主，但教育大學學生多為文組背景——這正是提案的<strong>起點與機會</strong>。
+      </div>
+    </div>
+    <div class="col gap-24 flex-1" style="justify-content:center;">
+      <div style="background:rgba(255,255,255,0.12);border-radius:16px;padding:44px 48px;">
+        <div class="t-28 muted" style="color:rgba(255,255,255,0.50);margin-bottom:16px;">問自己這個問題：</div>
+        <div class="t-36 w-500 white" style="font-family:var(--ff-serif);line-height:1.5;">「我的教學方式，是否已面臨瓶頸？學生卡在哪裡？」</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 05 · 教學現場的五大關鍵問題 ===== -->
+<section data-label="教學現場的五大關鍵問題" class="col pad-sm">
+  <h2 class="t-64 w-700" style="margin-bottom:44px;">教學現場的五大關鍵問題</h2>
+  <div class="col gap-20" style="flex:1;">
+    <div class="bullet-row">
+      <div class="num-badge">1</div>
+      <div class="col gap-8">
+        <div class="t-34 w-600">學習興趣低落</div>
+        <div class="t-28 w-400" style="color:var(--ink2);">文組學生比例上升，傳統物理建模範例難以引起共鳴</div>
+      </div>
+    </div>
+    <div class="rule"></div>
+    <div class="bullet-row">
+      <div class="num-badge" style="background:var(--amber);">2</div>
+      <div class="col gap-8">
+        <div class="t-34 w-600">理論與實踐脫節</div>
+        <div class="t-28 w-400" style="color:var(--ink2);">課本偏重抽象定理，學生疑惑「學微分方程有什麼用？」</div>
+      </div>
+    </div>
+    <div class="rule"></div>
+    <div class="bullet-row">
+      <div class="num-badge" style="background:var(--green);">3</div>
+      <div class="col gap-8">
+        <div class="t-34 w-600">缺乏跨學科視野</div>
+        <div class="t-28 w-400" style="color:var(--ink2);">學習侷限於數學與教育內部，難以整合跨域知識</div>
+      </div>
+    </div>
+    <div class="rule"></div>
+    <div class="bullet-row">
+      <div class="num-badge" style="background:oklch(0.55 0.12 270);">4</div>
+      <div class="col gap-8">
+        <div class="t-34 w-600">資訊素養不足</div>
+        <div class="t-28 w-400" style="color:var(--ink2);">AI 時代自主學習能力與批判性思維有待培養</div>
+      </div>
+    </div>
+    <div class="rule"></div>
+    <div class="bullet-row">
+      <div class="num-badge" style="background:oklch(0.52 0.14 10);">5</div>
+      <div class="col gap-8">
+        <div class="t-34 w-600">對全球議題（SDGs）陌生</div>
+        <div class="t-28 w-400" style="color:var(--ink2);">學生缺乏社會責任感，無法連結個人發展與全球目標</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 06 · 問題的重要性 ===== -->
+<section data-label="說明問題的重要性" class="col pad">
+  <div class="phase-tag">為什麼這些問題必須解決？</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">問題的重要性：三個層面</h2>
+  <div class="row gap-36" style="flex:1;">
+    <div style="flex:1;background:white;border-radius:16px;padding:44px 48px;border-left:7px solid var(--teal);">
+      <div class="t-36 w-700" style="color:var(--teal);margin-bottom:20px;">知道為什麼學數學</div>
+      <div class="t-28 w-400" style="color:var(--ink2);line-height:1.7;">微分方程是數學建模的核心工具，透過真實案例，幫助學生掌握數學對世界發展的貢獻，並將正確觀念帶入未來教學現場。</div>
+    </div>
+    <div style="flex:1;background:white;border-radius:16px;padding:44px 48px;border-left:7px solid var(--amber);">
+      <div class="t-36 w-700" style="color:var(--amber);margin-bottom:20px;">拓展跨域視野與社會責任</div>
+      <div class="t-28 w-400" style="color:var(--ink2);line-height:1.7;">以 SDGs 作為數學建模主軸，讓學生學習工具的同時，也培養分析全球性問題的能力與社會責任感。</div>
+    </div>
+    <div style="flex:1;background:white;border-radius:16px;padding:44px 48px;border-left:7px solid var(--green);">
+      <div class="t-36 w-700" style="color:var(--green);margin-bottom:20px;">提升資訊素養與自學能力</div>
+      <div class="t-28 w-400" style="color:var(--ink2);line-height:1.7;">AI 快速發展，自學能力成為核心競爭力。結合 GPT 工具培養學生批判性思維，是回應時代需求的教育責任。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 07 · 轉化思維 ===== -->
+<section data-label="轉化思維：將全球議題帶入數學課室" class="dark col pad">
+  <div style="font-size:26px;font-weight:500;letter-spacing:0.10em;color:rgba(255,255,255,0.45);margin-bottom:36px;text-transform:uppercase;">第三階段 · 創新方案的提出</div>
+  <h2 class="t-64 w-700 white" style="margin-bottom:44px;">轉化思維：將全球議題帶入數學課室</h2>
+  <div class="rule"></div>
+  <div class="row gap-48" style="flex:1;align-items:center;">
+    <div class="col gap-32 flex-1">
+      <div class="col gap-16">
+        <div class="t-34 w-500 white">引入 SDGs 的動機</div>
+        <div class="t-28 w-400" style="color:rgba(255,255,255,0.72);line-height:1.7;">傳統微分方程的建模場景（虎克定律、歐姆定律）對文組學生認知負擔重。改用人口成長、全球溫升、傳染病擴散等 SDGs 情境，讓抽象方程式<strong style="color:oklch(0.75 0.12 192);">具象化</strong>。</div>
+      </div>
+      <div class="col gap-16">
+        <div class="t-34 w-500 white">跨學科融合的契機</div>
+        <div class="t-28 w-400" style="color:rgba(255,255,255,0.72);line-height:1.7;">連結數學與環境科學、社會科學——突破傳統學科界限，實現<strong style="color:oklch(0.75 0.12 192);">數學教育的社會化</strong>。</div>
+      </div>
+    </div>
+    <div class="flex-1" style="display:flex;align-items:center;justify-content:center;">
+      <div style="background:rgba(255,255,255,0.06);border-radius:20px;padding:52px 60px;text-align:center;max-width:620px;">
+        <div style="font-size:60px;margin-bottom:20px;">🌏</div>
+        <div class="t-36 w-500 white" style="font-family:var(--ff-serif);line-height:1.55;">將微分方程的解法，<br>變成理解世界的語言</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 08 · SDGs × PBL × AI ===== -->
+<section data-label="計畫的創新核心：SDGs × PBL × AI" class="col pad">
+  <div class="phase-tag">計畫創新核心</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">SDGs × PBL × AI 三位一體</h2>
+  <div class="row gap-36" style="flex:1;">
+    <div class="col gap-20" style="flex:1;background:var(--navy);border-radius:16px;padding:48px;color:white;">
+      <div style="font-size:52px;font-weight:900;color:oklch(0.65 0.12 192);">SDGs</div>
+      <div class="t-34 w-500 white">永續發展目標</div>
+      <div class="t-28 w-300" style="color:rgba(255,255,255,0.65);line-height:1.65;">提供真實問題情境，賦予數學學習社會意義，激發學習動機</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:900;color:var(--muted);">×</div>
+    <div class="col gap-20" style="flex:1;background:var(--navy);border-radius:16px;padding:48px;color:white;">
+      <div style="font-size:52px;font-weight:900;color:oklch(0.72 0.13 68);">PBL</div>
+      <div class="t-34 w-500 white">專案導向學習</div>
+      <div class="t-28 w-300" style="color:rgba(255,255,255,0.65);line-height:1.65;">以學生為中心，分組合作探究真實問題，建立模型並發表成果</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:900;color:var(--muted);">×</div>
+    <div class="col gap-20" style="flex:1;background:var(--navy);border-radius:16px;padding:48px;color:white;">
+      <div style="font-size:52px;font-weight:900;color:oklch(0.68 0.12 152);">AI</div>
+      <div class="t-34 w-500 white">GPT 智能輔助</div>
+      <div class="t-28 w-300" style="color:rgba(255,255,255,0.65);line-height:1.65;">個人化學習支持，翻轉課室課前預習，培養批判性資訊素養</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 09 · 為什麼選擇 AI 介入？ ===== -->
+<section data-label="為什麼選擇 AI 介入？" class="col pad">
+  <div class="phase-tag">AI 介入的理由</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">為什麼選擇 AI 介入？</h2>
+  <div class="row gap-48" style="flex:1;">
+    <div class="col gap-36 flex-1">
+      <div class="card col gap-20" style="border-top:5px solid var(--teal);">
+        <div class="t-36 w-700" style="color:var(--teal);">個性化學習支持</div>
+        <div class="t-28 w-400" style="color:var(--ink2);line-height:1.7;">自製專屬微分方程 GPT，學生課前自學解題方法，突破數學技術門檻，讓課堂聚焦在深度討論而非基礎講授。</div>
+      </div>
+      <div class="card col gap-20" style="border-top:5px solid var(--amber);">
+        <div class="t-36 w-700" style="color:var(--amber);">批判性思維訓練</div>
+        <div class="t-28 w-400" style="color:var(--ink2);line-height:1.7;">GPT 會產生「幻覺」。引導學生面對 AI 錯誤輸出，學習資料核實，本身就是最真實的批判性思維訓練。</div>
+      </div>
+    </div>
+    <div class="flex-1 col gap-20" style="justify-content:center;">
+      <div style="background:var(--navy);border-radius:16px;padding:52px;color:white;">
+        <div class="t-28 w-400" style="color:rgba(255,255,255,0.50);margin-bottom:20px;">教師角色轉型</div>
+        <div class="t-36 w-500 white" style="font-family:var(--ff-serif);line-height:1.6;">「不是讓 AI 教數學，而是讓學生透過 AI 學會<em style="color:oklch(0.72 0.12 192);">如何學習</em>。」</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 10 · 計畫目標的精準設定 ===== -->
+<section data-label="計畫目標的精準設定" class="col pad">
+  <div class="phase-tag">計畫目標</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">計畫目標：認知 × 情意雙軌並進</h2>
+  <div class="row gap-48" style="flex:1;">
+    <div class="col gap-28 flex-1">
+      <div style="font-size:36px;font-weight:700;color:var(--teal);margin-bottom:8px;">認知目標</div>
+      <div class="bullet-row gap-24">
+        <div class="bullet-dot"></div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);">掌握微分方程的理論基礎與解題方法</div>
+      </div>
+      <div class="bullet-row gap-24">
+        <div class="bullet-dot"></div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);">培養數學建模能力：從真實問題建立方程式</div>
+      </div>
+      <div class="bullet-row gap-24">
+        <div class="bullet-dot"></div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);">發展模型詮釋與預測的分析能力</div>
+      </div>
+      <div class="bullet-row gap-24">
+        <div class="bullet-dot"></div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);">有效運用 AI 工具進行自主學習與資料核實</div>
+      </div>
+    </div>
+    <div style="width:1px;background:var(--rule);"></div>
+    <div class="col gap-28 flex-1">
+      <div style="font-size:36px;font-weight:700;color:var(--amber);margin-bottom:8px;">情意目標</div>
+      <div class="bullet-row gap-24">
+        <div class="bullet-dot" style="background:var(--amber);"></div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);">提升微分方程的學習動機與自信心</div>
+      </div>
+      <div class="bullet-row gap-24">
+        <div class="bullet-dot" style="background:var(--amber);"></div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);">增強對全球性議題（SDGs）的關注與理解</div>
+      </div>
+      <div class="bullet-row gap-24">
+        <div class="bullet-dot" style="background:var(--amber);"></div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);">培養社會責任感與全球公民意識</div>
+      </div>
+      <div class="bullet-row gap-24">
+        <div class="bullet-dot" style="background:var(--amber);"></div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);">強化團隊合作、表達溝通與批判思考能力</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 11 · 情境式教學 ===== -->
+<section data-label="教學策略I：情境式教學" class="teal-bg col pad">
+  <div style="font-size:26px;font-weight:500;letter-spacing:0.10em;color:rgba(255,255,255,0.55);margin-bottom:36px;text-transform:uppercase;">第四階段 · 教學設計與執行路徑</div>
+  <h2 class="t-64 w-700 white" style="margin-bottom:16px;">教學策略 (I)：情境式教學</h2>
+  <div class="t-34 w-300" style="color:rgba(255,255,255,0.65);margin-bottom:44px;">Contextual Teaching and Learning</div>
+  <div class="row gap-36" style="flex:1;">
+    <div style="flex:1.2;background:rgba(255,255,255,0.10);border-radius:16px;padding:44px;">
+      <div class="t-32 w-500 white" style="font-size:32px;margin-bottom:28px;">真實情境案例（融入 SDGs）</div>
+      <div class="col gap-20">
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:white;width:8px;height:8px;margin-top:10px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.85);">全球氣溫上升模型（SDG 13 氣候行動）</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:white;width:8px;height:8px;margin-top:10px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.85);">傳染病擴散 SIR 模型（SDG 3 良好健康）</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:white;width:8px;height:8px;margin-top:10px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.85);">人口與資源消耗模型（SDG 11 永續城市）</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:white;width:8px;height:8px;margin-top:10px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.85);">物種滅絕與生態保育（SDG 15 陸域生態）</div></div>
+      </div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.10);border-radius:16px;padding:44px;">
+      <div class="t-32 w-500 white" style="font-size:32px;margin-bottom:28px;">教學實施步驟</div>
+      <div class="col gap-20">
+        <div class="bullet-row gap-20"><div class="num-badge" style="background:rgba(255,255,255,0.20);color:white;width:44px;height:44px;font-size:24px;flex-shrink:0;">1</div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.85);">導入真實數據資料（聯合國、WHO 等）</div></div>
+        <div class="bullet-row gap-20"><div class="num-badge" style="background:rgba(255,255,255,0.20);color:white;width:44px;height:44px;font-size:24px;flex-shrink:0;">2</div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.85);">引導學生建立問題假設與變數定義</div></div>
+        <div class="bullet-row gap-20"><div class="num-badge" style="background:rgba(255,255,255,0.20);color:white;width:44px;height:44px;font-size:24px;flex-shrink:0;">3</div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.85);">建立微分方程模型並求解</div></div>
+        <div class="bullet-row gap-20"><div class="num-badge" style="background:rgba(255,255,255,0.20);color:white;width:44px;height:44px;font-size:24px;flex-shrink:0;">4</div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.85);">詮釋結果與政策意涵分析</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 12 · PBL ===== -->
+<section data-label="教學策略II：專案導向學習PBL" class="col pad">
+  <div class="phase-tag">教學策略 II</div>
+  <h2 class="t-64 w-700" style="margin-bottom:16px;">專案導向學習（PBL）</h2>
+  <div class="t-34 w-400 muted" style="margin-bottom:44px;">Project-Based Learning · 以學生為中心</div>
+  <div class="row gap-24" style="flex:1;align-items:center;">
+    <!-- flow -->
+    <div style="flex:1;display:flex;flex-direction:column;gap:16px;">
+      <div style="background:white;border-radius:12px;padding:28px 36px;display:flex;align-items:center;gap:28px;">
+        <div class="num-badge" style="background:var(--teal);flex-shrink:0;">1</div>
+        <div><div class="t-30 w-600" style="font-size:30px;">主題選擇</div><div class="t-24 w-400 muted" style="font-size:24px;">小組自選 SDGs 議題，確認研究方向</div></div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:28px 36px;display:flex;align-items:center;gap:28px;">
+        <div class="num-badge" style="background:var(--teal);flex-shrink:0;">2</div>
+        <div><div class="t-30 w-600" style="font-size:30px;">資料蒐集</div><div class="t-24 w-400 muted" style="font-size:24px;">查找權威資料來源，使用 GPT 輔助理解</div></div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:28px 36px;display:flex;align-items:center;gap:28px;">
+        <div class="num-badge" style="background:var(--teal);flex-shrink:0;">3</div>
+        <div><div class="t-30 w-600" style="font-size:30px;">模型構建</div><div class="t-24 w-400 muted" style="font-size:24px;">建立微分方程模型，進行數值分析</div></div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:28px 36px;display:flex;align-items:center;gap:28px;">
+        <div class="num-badge" style="background:var(--amber);flex-shrink:0;">4</div>
+        <div><div class="t-30 w-600" style="font-size:30px;">研究報告撰寫</div><div class="t-24 w-400 muted" style="font-size:24px;">整合分析結果，撰寫完整研究報告</div></div>
+      </div>
+      <div style="background:white;border-radius:12px;padding:28px 36px;display:flex;align-items:center;gap:28px;">
+        <div class="num-badge" style="background:var(--amber);flex-shrink:0;">5</div>
+        <div><div class="t-30 w-600" style="font-size:30px;">成果展示與發表</div><div class="t-24 w-400 muted" style="font-size:24px;">公開報告、回應提問，展現學習成果</div></div>
+      </div>
+    </div>
+    <div style="flex:0.6;background:var(--navy);border-radius:16px;padding:52px 44px;color:white;display:flex;flex-direction:column;gap:28px;justify-content:center;">
+      <div class="t-34 w-500 white">核心價值</div>
+      <div class="t-28 w-400" style="color:rgba(255,255,255,0.75);line-height:1.7;">學生不再是被動接受者，而是<strong style="color:oklch(0.72 0.12 192);">主動研究者</strong>。每個小組都在真實解決一個全球問題。</div>
+      <div class="t-28 w-400" style="color:rgba(255,255,255,0.75);line-height:1.7;">PBL 培養的不只是數學能力，更是未來面對複雜問題的<strong style="color:oklch(0.72 0.12 192);">思維方式</strong>。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 13 · GPT 的角色 ===== -->
+<section data-label="數位時代的學習輔助：GPT的角色" class="col pad">
+  <div class="phase-tag">GPT 的教學角色</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">GPT 在課程中扮演什麼角色？</h2>
+  <div class="row gap-36" style="flex:1;">
+    <div class="col gap-28 flex-1">
+      <div style="background:white;border-radius:16px;padding:36px 44px;">
+        <div class="t-34 w-600" style="color:var(--teal);margin-bottom:16px;">✓ 翻轉課室工具</div>
+        <div class="t-28 w-400" style="color:var(--ink2);line-height:1.7;">教師自製專屬微分方程 GPT，加入 SDGs 相關文件。學生課前使用 GPT 預習解題，課堂專注討論與深度探究。</div>
+      </div>
+      <div style="background:white;border-radius:16px;padding:36px 44px;">
+        <div class="t-34 w-600" style="color:var(--green);margin-bottom:16px;">✓ 問題探索夥伴</div>
+        <div class="t-28 w-400" style="color:var(--ink2);line-height:1.7;">引導學生提出有效問題，解讀 AI 回答，並在教師指導下進行資料核實——這正是最好的學習過程。</div>
+      </div>
+    </div>
+    <div class="col gap-28 flex-1">
+      <div style="background:oklch(0.96 0.03 68);border-radius:16px;padding:36px 44px;border:2px solid var(--amber);">
+        <div class="t-34 w-600" style="color:var(--amber);margin-bottom:16px;">⚠ 必須留意的風險</div>
+        <div class="t-28 w-400" style="color:var(--ink2);line-height:1.7;">GPT 在高階數學推理中的邏輯嚴謹性不足，可能給出錯誤解答。<strong>教師需定期在課堂上檢視學生學習狀態</strong>，避免學習到錯誤知識。</div>
+      </div>
+      <div style="background:white;border-radius:16px;padding:36px 44px;">
+        <div class="t-34 w-600" style="color:var(--navy);margin-bottom:16px;">學術誠信的邊界</div>
+        <div class="t-28 w-400" style="color:var(--ink2);line-height:1.7;">明確告知學生 GPT 使用規範，強調自主思考與資料驗證，培養正確的學術誠信觀念。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 14 · 週次進度 ===== -->
+<section data-label="週次進度與實施環節" class="col pad-sm">
+  <h2 class="t-64 w-700" style="margin-bottom:40px;">週次進度與課程安排</h2>
+  <table class="timeline-table">
+    <thead>
+      <tr>
+        <th style="width:180px;">週次</th>
+        <th>教學主題</th>
+        <th>教學方式</th>
+        <th>學習目標</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>第 1–3 週</td>
+        <td>微分方程基礎理論與解法</td>
+        <td>教師講授 + GPT 預習</td>
+        <td>掌握核心解題方法</td>
+      </tr>
+      <tr>
+        <td>第 4–6 週</td>
+        <td>SDGs 情境導入 · 數學建模介紹</td>
+        <td>情境式教學 · 案例分析</td>
+        <td>理解建模流程，連結真實問題</td>
+      </tr>
+      <tr>
+        <td>第 7–10 週</td>
+        <td>PBL 小組研究啟動</td>
+        <td>分組討論 · 師生諮詢</td>
+        <td>完成問題定義與初步建模</td>
+      </tr>
+      <tr>
+        <td>第 11–14 週</td>
+        <td>模型分析、撰寫研究報告</td>
+        <td>小組合作 · 教師回饋</td>
+        <td>完成完整報告與結果詮釋</td>
+      </tr>
+      <tr>
+        <td>第 15–18 週</td>
+        <td>成果展示與學期統整</td>
+        <td>公開發表 · 互評</td>
+        <td>表達成果，反思學習歷程</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== SLIDE 15 · 研究架構設計 ===== -->
+<section data-label="研究架構設計" class="dark col pad">
+  <div style="font-size:26px;font-weight:500;letter-spacing:0.10em;color:rgba(255,255,255,0.45);margin-bottom:36px;text-transform:uppercase;">第五階段 · 研究方法與成效評量</div>
+  <h2 class="t-64 w-700 white" style="margin-bottom:16px;">如何證明計畫有效？</h2>
+  <div class="t-36 w-400" style="color:rgba(255,255,255,0.65);margin-bottom:44px;">研究架構：行動研究法（Action Research）</div>
+  <div class="row gap-36" style="flex:1;align-items:center;">
+    <div class="flex-1 col gap-24">
+      <div style="background:rgba(255,255,255,0.08);border-radius:14px;padding:36px 44px;">
+        <div class="t-32 w-600 white" style="font-size:32px;margin-bottom:12px;">為什麼選行動研究？</div>
+        <div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.72);line-height:1.7;">教師即研究者。在實際教學過程中持續觀察、反思、調整，使研究與教學相互促進，而非分離的兩件事。</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:14px;padding:36px 44px;">
+        <div class="t-32 w-600 white" style="font-size:32px;margin-bottom:12px;">研究核心問題</div>
+        <div class="col gap-14">
+          <div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.72);">① SDGs 融入能否提升學習動機？</div>
+          <div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.72);">② PBL 與 GPT 能否提升建模能力？</div>
+          <div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.72);">③ 學生的 SDGs 意識是否增強？</div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-1" style="display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;">
+        <div style="display:inline-flex;flex-direction:column;align-items:center;gap:12px;">
+          <div style="background:var(--teal);color:white;border-radius:12px;padding:24px 40px;font-size:30px;font-weight:600;width:320px;text-align:center;">計畫</div>
+          <div style="font-size:32px;color:rgba(255,255,255,0.40);">↓</div>
+          <div style="background:rgba(255,255,255,0.12);color:white;border-radius:12px;padding:24px 40px;font-size:30px;font-weight:600;width:320px;text-align:center;">執行</div>
+          <div style="font-size:32px;color:rgba(255,255,255,0.40);">↓</div>
+          <div style="background:rgba(255,255,255,0.12);color:white;border-radius:12px;padding:24px 40px;font-size:30px;font-weight:600;width:320px;text-align:center;">觀察</div>
+          <div style="font-size:32px;color:rgba(255,255,255,0.40);">↓</div>
+          <div style="background:var(--amber);color:white;border-radius:12px;padding:24px 40px;font-size:30px;font-weight:600;width:320px;text-align:center;">反思調整</div>
+          <div style="border:2px dashed rgba(255,255,255,0.25);border-radius:8px;padding:10px 32px;font-size:24px;color:rgba(255,255,255,0.45);margin-top:4px;">↺ 循環反覆</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 16 · 多元研究工具 ===== -->
+<section data-label="多元研究工具與資料收集" class="col pad">
+  <div class="phase-tag">資料收集方法</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">多元研究工具與資料收集</h2>
+  <div class="row gap-36" style="flex:1;">
+    <div style="flex:1;background:white;border-radius:16px;padding:44px;border-top:5px solid var(--teal);">
+      <div class="t-34 w-700" style="color:var(--teal);margin-bottom:28px;">量化工具</div>
+      <div class="col gap-20">
+        <div class="bullet-row gap-20"><div class="bullet-dot"></div><div class="t-28 w-400" style="font-size:28px;">前後測問卷：學習動機與 SDGs 意識量表</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot"></div><div class="t-28 w-400" style="font-size:28px;">學習成效測驗：期中、期末考成績對比</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot"></div><div class="t-28 w-400" style="font-size:28px;">課堂參與度評分記錄</div></div>
+      </div>
+    </div>
+    <div style="flex:1;background:white;border-radius:16px;padding:44px;border-top:5px solid var(--amber);">
+      <div class="t-34 w-700" style="color:var(--amber);margin-bottom:28px;">質性工具</div>
+      <div class="col gap-20">
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:var(--amber);"></div><div class="t-28 w-400" style="font-size:28px;">半結構式訪談：學生學習經驗深度探索</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:var(--amber);"></div><div class="t-28 w-400" style="font-size:28px;">教學反思日誌：教師每週記錄觀察</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:var(--amber);"></div><div class="t-28 w-400" style="font-size:28px;">學生作業與 PBL 報告文本分析</div></div>
+      </div>
+    </div>
+    <div style="flex:1;background:var(--navy);border-radius:16px;padding:44px;color:white;">
+      <div class="t-34 w-700 white" style="margin-bottom:28px;">互補分析策略</div>
+      <div class="t-28 w-400" style="color:rgba(255,255,255,0.75);line-height:1.7;margin-bottom:24px;">量化資料確認<strong style="color:oklch(0.72 0.12 192);">趨勢與效果大小</strong>，質性資料揭示<strong style="color:oklch(0.72 0.12 192);">原因與過程</strong>，兩者相互驗證（三角檢核法）。</div>
+      <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:24px 28px;">
+        <div class="t-26 w-400" style="font-size:26px;color:rgba(255,255,255,0.60);">混合方法研究設計確保結論的信效度</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 17 · 學習成效評量工具 ===== -->
+<section data-label="學習成效評量工具" class="col pad">
+  <div class="phase-tag">評量設計</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">學習成效評量工具</h2>
+  <div class="row gap-36" style="flex:1;">
+    <div class="col gap-20 flex-1">
+      <div style="background:white;border-radius:14px;padding:32px 40px;display:flex;align-items:center;gap:28px;">
+        <div style="font-size:48px;font-weight:900;color:oklch(0.88 0.08 192);flex-shrink:0;width:100px;text-align:center;">10%</div>
+        <div>
+          <div class="t-32 w-600" style="font-size:32px;">平時參與度</div>
+          <div class="t-24 muted" style="font-size:24px;">課堂討論、GPT 使用與提問品質</div>
+        </div>
+      </div>
+      <div style="background:white;border-radius:14px;padding:32px 40px;display:flex;align-items:center;gap:28px;">
+        <div style="font-size:48px;font-weight:900;color:oklch(0.88 0.08 192);flex-shrink:0;width:100px;text-align:center;">20%</div>
+        <div>
+          <div class="t-32 w-600" style="font-size:32px;">課堂作業</div>
+          <div class="t-24 muted" style="font-size:24px;">解題過程與建模思維評估</div>
+        </div>
+      </div>
+      <div style="background:white;border-radius:14px;padding:32px 40px;display:flex;align-items:center;gap:28px;">
+        <div style="font-size:48px;font-weight:900;color:oklch(0.88 0.08 192);flex-shrink:0;width:100px;text-align:center;">20%</div>
+        <div>
+          <div class="t-32 w-600" style="font-size:32px;">期中考試</div>
+          <div class="t-24 muted" style="font-size:24px;">理論基礎與解題能力測驗</div>
+        </div>
+      </div>
+    </div>
+    <div class="col gap-20 flex-1">
+      <div style="background:var(--teal);border-radius:14px;padding:32px 40px;display:flex;align-items:center;gap:28px;">
+        <div style="font-size:48px;font-weight:900;color:rgba(255,255,255,0.4);flex-shrink:0;width:100px;text-align:center;">35%</div>
+        <div>
+          <div class="t-32 w-600 white" style="font-size:32px;">PBL 項目報告與展示</div>
+          <div class="t-24 white" style="font-size:24px;color:rgba(255,255,255,0.80);">核心評量：建模品質、SDGs 連結深度、發表表現</div>
+        </div>
+      </div>
+      <div style="background:white;border-radius:14px;padding:32px 40px;display:flex;align-items:center;gap:28px;">
+        <div style="font-size:48px;font-weight:900;color:oklch(0.88 0.08 192);flex-shrink:0;width:100px;text-align:center;">15%</div>
+        <div>
+          <div class="t-32 w-600" style="font-size:32px;">期末考試</div>
+          <div class="t-24 muted" style="font-size:24px;">綜合應用與建模能力統整評量</div>
+        </div>
+      </div>
+      <div style="background:oklch(0.96 0.03 68);border-radius:14px;padding:28px 40px;border:2px solid var(--amber);">
+        <div class="t-28 w-500" style="font-size:28px;color:var(--amber);margin-bottom:8px;">評量設計原則</div>
+        <div class="t-24 w-400 muted" style="font-size:24px;">PBL 項目占最高比重，回應計畫以應用能力培養為核心的教學理念</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 18 · 研究倫理 ===== -->
+<section data-label="研究倫理與資料處理" class="col pad">
+  <div class="phase-tag">研究倫理</div>
+  <h2 class="t-64 w-700" style="margin-bottom:52px;">研究倫理與資料處理</h2>
+  <div class="row gap-48" style="flex:1;">
+    <div class="col gap-36 flex-1">
+      <div class="col gap-20">
+        <div class="t-36 w-700" style="color:var(--teal);">知情同意</div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);line-height:1.7;">研究開始前取得所有參與學生的<strong>知情同意書</strong>，清楚告知研究目的、資料使用方式與保密原則，保障學生參與意願的自主性。</div>
+      </div>
+      <div class="col gap-20">
+        <div class="t-36 w-700" style="color:var(--teal);">資料匿名化</div>
+        <div class="t-30 w-400" style="font-size:30px;color:var(--ink2);line-height:1.7;">建立統一的<strong>編碼標準</strong>（如 S001、S002），所有資料以匿名方式儲存與分析，確保個人資訊不被識別。</div>
+      </div>
+    </div>
+    <div class="flex-1 col gap-24" style="justify-content:center;">
+      <div style="background:var(--navy);border-radius:16px;padding:52px;color:white;">
+        <div class="t-34 w-500 white" style="margin-bottom:24px;">研究者的責任</div>
+        <div class="col gap-20">
+          <div class="bullet-row gap-20">
+            <div class="bullet-dot" style="background:oklch(0.65 0.12 192);margin-top:14px;"></div>
+            <div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.78);">資料只用於學術研究目的，不作其他用途</div>
+          </div>
+          <div class="bullet-row gap-20">
+            <div class="bullet-dot" style="background:oklch(0.65 0.12 192);margin-top:14px;"></div>
+            <div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.78);">學生有權在任何時候退出研究</div>
+          </div>
+          <div class="bullet-row gap-20">
+            <div class="bullet-dot" style="background:oklch(0.65 0.12 192);margin-top:14px;"></div>
+            <div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.78);">資料保存與銷毀遵循機構規定</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 19 · 預期成果與社會影響 ===== -->
+<section data-label="預期成果與社會影響" class="dark col pad">
+  <div style="font-size:26px;font-weight:500;letter-spacing:0.10em;color:rgba(255,255,255,0.45);margin-bottom:36px;text-transform:uppercase;">第六階段 · 預期貢獻與結語</div>
+  <h2 class="t-64 w-700 white" style="margin-bottom:52px;">預期成果與社會影響</h2>
+  <div class="row gap-36" style="flex:1;">
+    <div class="col gap-28 flex-1" style="background:rgba(255,255,255,0.07);border-radius:16px;padding:44px;">
+      <div style="font-size:34px;font-weight:700;color:oklch(0.65 0.12 192);margin-bottom:8px;">對學生的影響</div>
+      <div class="col gap-16">
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:oklch(0.65 0.12 192);margin-top:12px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.80);">提升微分方程的理解與建模應用能力</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:oklch(0.65 0.12 192);margin-top:12px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.80);">增強全球視野、SDGs 素養與社會責任感</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:oklch(0.65 0.12 192);margin-top:12px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.80);">培養 AI 時代所需的自學與批判思維能力</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:oklch(0.65 0.12 192);margin-top:12px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.80);">師培生未來可將 SDGs 帶入國小教學現場</div></div>
+      </div>
+    </div>
+    <div class="col gap-28 flex-1" style="background:rgba(255,255,255,0.07);border-radius:16px;padding:44px;">
+      <div style="font-size:34px;font-weight:700;color:var(--amber);margin-bottom:8px;">對教師與社群的影響</div>
+      <div class="col gap-16">
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:var(--amber);margin-top:12px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.80);">提供一套可複製的 SDGs × 數學教學模式</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:var(--amber);margin-top:12px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.80);">推動教師專業發展：教師即研究者</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:var(--amber);margin-top:12px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.80);">成果可拓展至其他數學課程，形成教改示範</div></div>
+        <div class="bullet-row gap-20"><div class="bullet-dot" style="background:var(--amber);margin-top:12px;"></div><div class="t-28 w-400" style="font-size:28px;color:rgba(255,255,255,0.80);">為 AI 融入高等數學教學提供實證參考</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 20 · 結語 ===== -->
+<section data-label="結語" style="background:var(--navy);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:90px 160px;text-align:center;">
+  <div style="font-size:26px;font-weight:500;letter-spacing:0.12em;color:rgba(255,255,255,0.40);margin-bottom:52px;text-transform:uppercase;">結語</div>
+  <h2 style="font-size:72px;font-weight:700;color:white;line-height:1.3;margin-bottom:36px;font-family:var(--ff-serif);">
+    從「看見問題」<br>到「改變教學」
+  </h2>
+  <div style="width:80px;height:4px;background:oklch(0.65 0.12 192);border-radius:3px;margin:0 auto 52px;"></div>
+  <p style="font-size:34px;font-weight:400;color:rgba(255,255,255,0.72);max-width:1100px;line-height:1.7;">
+    教學實踐研究不僅是申請補助的策略，<br>更是教育工作者對專業成長的承諾，<br>以及對下一代教育品質的深刻責任。
+  </p>
+  <div style="margin-top:72px;font-size:32px;font-weight:500;color:rgba(255,255,255,0.40);letter-spacing:0.08em;">Q & A · 交流討論</div>
+</section>
+
+</deck-stage>
+</body>
+</html>
